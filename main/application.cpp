@@ -12,10 +12,10 @@ static void Log(const char* log) {
 
 static void InitGlad() {
     
-	if (!gladLoadGL(glfwGetProcAddress)) {
-		Log("Failed to Initialize GLAD!");
-		exit(-1);
-	}
+    if (!gladLoadGL(glfwGetProcAddress)) {
+        Log("Failed to Initialize GLAD!");
+        exit(-1);
+    }
 }
 
 static void InitImGui() {

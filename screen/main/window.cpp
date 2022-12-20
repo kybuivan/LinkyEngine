@@ -1,7 +1,6 @@
 #include "window.h"
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-
 #include <iostream>
 
 static bool isGLFWInitialized = false;
@@ -27,7 +26,6 @@ static void InitGLFW()
     isGLFWInitialized = true;
 }
 
-
 Window::Window() 
 {
     InitGLFW();
@@ -38,6 +36,12 @@ Window::Window()
         std::cout << "Error in creating window!" << std::endl;
         exit(-1);
     }
+
+    //GLFWimage icons[1];
+    //icons[0].pixels = Texture2D::Create("icon.png")->GetRendererID();
+    //glfwSetWindowIcon(m_Window, 1, icons);
+    //stbi_image_free(icons[0].pixels);
+
     isActive = true;
     glfwMakeContextCurrent(m_Window);
 }
@@ -58,7 +62,7 @@ void Window::SetVSync(bool enabled)
 
 void Window::Clear() 
 {
-    glClearColor(m_ClearColor.r, m_ClearColor.g, m_ClearColor.b, 1.0);
+    glClearColor(m_ClearColor.r, m_ClearColor.g, m_ClearColor.b, m_ClearColor.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -90,7 +94,7 @@ void Window::SetShouldCloseCallback(EventFunc callback)
     m_CloseEventCallback = callback;
 }
 
-void Window::SetClearColor(ClearColor color)
+void Window::SetClearColor(Color color)
 {
     m_ClearColor = color;
 }
