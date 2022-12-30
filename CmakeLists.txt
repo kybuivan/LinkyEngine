@@ -15,21 +15,33 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 include(external)
 
 add_executable (${PROJECT_NAME} main/main.cpp
-                                main/application.cpp
+                                editor/editor_node.cpp
+                                editor/editor_dock.cpp
+                                screen/main/application.cpp
                                 screen/main/window.cpp
+                                screen/main/viewport.cpp
+                                screen/main/node.cpp
                                 screen/resources/texture.cpp
-                                main/opengl_texture.cpp
+                                screen/resources/shader.cpp
+                                screen/resources/world_3d.cpp
+                                screen/gui/menu_bar.cpp
+                                screen/3d/camera_3d.cpp
+                                #screen/resources/mesh.cpp
+                                drivers/gl_context/opengl_texture.cpp
                                 icon.png
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
+    #${CMAKE_CURRENT_SOURCE_DIR}/external/assimp/include
+    #${CMAKE_BINARY_DIR}/external/assimp/include
 )
 
 target_link_libraries(${PROJECT_NAME}
-    #${OpenGL_LIBRARY}
     imgui::imgui
     glfw
     glad_gl_core_33
     glm::glm
     stb::stb
+    #assimp-vc142-mt
+    #zlibstatic
 )

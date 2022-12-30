@@ -1,5 +1,5 @@
 #pragma once
-#include "screen/main/window.h"
+#include "window.h"
 class Application {
 public:
     Application();

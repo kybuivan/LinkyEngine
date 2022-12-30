@@ -24,6 +24,13 @@ endif()
 
 #find_package(OpenGL REQUIRED)
 
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_SAMPLES OFF CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+add_subdirectory (${PROJECT_SOURCE_DIR}/external/assimp)
+
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -36,6 +43,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/external/glm)
 
 # ImGui setup
 set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/external/imgui)
+set(IMNODES_DIR ${PROJECT_SOURCE_DIR}/external/imnodes)
 add_library(imgui STATIC)
 target_sources( imgui
     PRIVATE
@@ -45,13 +53,14 @@ target_sources( imgui
         ${IMGUI_DIR}/imgui_widgets.cpp
         ${IMGUI_DIR}/imgui.cpp
         ${IMGUI_DIR}/misc/cpp/imgui_stdlib.cpp
-
+        ${IMNODES_DIR}/imnodes.cpp
     PRIVATE
         ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
         ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
 )
 target_include_directories( imgui
     PUBLIC ${IMGUI_DIR}
+    PUBLIC ${IMNODES_DIR}
     PUBLIC ${IMGUI_DIR}/backends
     PUBLIC ${PROJECT_SOURCE_DIR}/external/glfw/include
 )
@@ -69,7 +78,9 @@ file(WRITE "${CMAKE_BINARY_DIR}/external/stb/stb_image.cpp.in" [[
 configure_file(${CMAKE_BINARY_DIR}/external/stb/stb_image.cpp.in ${CMAKE_BINARY_DIR}/external/stb/stb_image.cpp COPYONLY)
 
 # Define stb library
-add_library(stb ${CMAKE_BINARY_DIR}/external/stb/stb_image.cpp)
+add_library(stb STATIC ${CMAKE_BINARY_DIR}/external/stb/stb_image.cpp)
 add_library(stb::stb ALIAS stb)
 
 target_include_directories(stb PUBLIC ${PROJECT_SOURCE_DIR}/external/stb)
+
+

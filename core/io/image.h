@@ -5,7 +5,8 @@
 class Image
 {
 public:
-
+	Image(){}
+	~Image(){}
 private:
 	std::vector<uint8_t> data;
 	int width = 0;
