@@ -77,13 +77,13 @@ public:
         Yaw   += xoffset;
         Pitch += yoffset;
 
-        // if (constrainPitch)
-        // {
-        //     if (Pitch > 89.0f)
-        //         Pitch = 89.0f;
-        //     if (Pitch < -89.0f)
-        //         Pitch = -89.0f;
-        // }
+        if (constrainPitch)
+        {
+            if (Pitch > 89.0f)
+                Pitch = 89.0f;
+            if (Pitch < -89.0f)
+                Pitch = -89.0f;
+        }
 
         updateCamera3DVectors();
     }
@@ -91,10 +91,10 @@ public:
     void ProcessMouseScroll(float yoffset)
     {
         Zoom -= (float)yoffset;
-        // if (Zoom < 1.0f)
-        //     Zoom = 1.0f;
-        // if (Zoom > 45.0f)
-        //     Zoom = 45.0f;
+        if (Zoom < 1.0f)
+            Zoom = 1.0f;
+        if (Zoom > 45.0f)
+            Zoom = 45.0f;
     }
 
 private:

@@ -26,3 +26,7 @@
 	path = external/assimp
 	url = https://github.com/assimp/assimp.git
 	branch = master
+[submodule "external/imguizmo"]
+	path = external/imguizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo.git
+	branch = master

@@ -14,22 +14,30 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include(external)
 
-add_executable (${PROJECT_NAME} main/main.cpp
-                                editor/editor_node.cpp
-                                editor/editor_dock.cpp
-                                screen/main/application.cpp
-                                screen/main/window.cpp
-                                screen/main/viewport.cpp
-                                screen/main/node.cpp
-                                screen/resources/texture.cpp
-                                screen/resources/shader.cpp
-                                screen/resources/world_3d.cpp
-                                screen/gui/menu_bar.cpp
-                                screen/3d/camera_3d.cpp
-                                #screen/resources/mesh.cpp
-                                drivers/gl_context/opengl_texture.cpp
-                                icon.png
+# GLOB_RECURSE also simplifies your glob expressions
+file (GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
+    ${PROJECT_SOURCE_DIR}/main/*.h
+    ${PROJECT_SOURCE_DIR}/main/*.cpp
+    ${PROJECT_SOURCE_DIR}/core/*.h
+    ${PROJECT_SOURCE_DIR}/core/**/*.h
+    ${PROJECT_SOURCE_DIR}/core/*.cpp
+    ${PROJECT_SOURCE_DIR}/core/**/*.cpp
+    ${PROJECT_SOURCE_DIR}/editor/*.h
+    ${PROJECT_SOURCE_DIR}/editor/**/*.h
+    ${PROJECT_SOURCE_DIR}/editor/*.cpp
+    ${PROJECT_SOURCE_DIR}/editor/**/*.cpp
+    ${PROJECT_SOURCE_DIR}/screen/*.h
+    ${PROJECT_SOURCE_DIR}/screen/**/*.h
+    ${PROJECT_SOURCE_DIR}/screen/*.cpp
+    ${PROJECT_SOURCE_DIR}/screen/**/*.cpp
+    ${PROJECT_SOURCE_DIR}/drivers/*.h
+    ${PROJECT_SOURCE_DIR}/drivers/**/*.h
+    ${PROJECT_SOURCE_DIR}/drivers/*.cpp
+    ${PROJECT_SOURCE_DIR}/drivers/**/*.cpp
 )
+
+add_executable (${PROJECT_NAME} ${SRC_FILES})
+
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     #${CMAKE_CURRENT_SOURCE_DIR}/external/assimp/include

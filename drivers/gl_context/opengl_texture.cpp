@@ -1,8 +1,7 @@
 #include "opengl_texture.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 #include <backends/imgui_impl_opengl3_loader.h>
 #include <iostream>
+#include <stb_image.h>
 
 OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
     :m_Path(path)

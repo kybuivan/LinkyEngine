@@ -4,7 +4,9 @@
 class EditorNode
 {
 public:
-	static void ShowEditorNode();
+	static void NodeEditorInitialize();
+	static void NodeEditorShow();
+	static void NodeEditorShutdown();
 private:
 
 };

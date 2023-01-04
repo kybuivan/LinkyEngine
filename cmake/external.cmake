@@ -44,6 +44,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/external/glm)
 # ImGui setup
 set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/external/imgui)
 set(IMNODES_DIR ${PROJECT_SOURCE_DIR}/external/imnodes)
+set(IMGUIZMO_DIR ${PROJECT_SOURCE_DIR}/external/imguizmo)
 add_library(imgui STATIC)
 target_sources( imgui
     PRIVATE
@@ -54,6 +55,11 @@ target_sources( imgui
         ${IMGUI_DIR}/imgui.cpp
         ${IMGUI_DIR}/misc/cpp/imgui_stdlib.cpp
         ${IMNODES_DIR}/imnodes.cpp
+        ${IMGUIZMO_DIR}/GraphEditor.cpp
+        ${IMGUIZMO_DIR}/ImCurveEdit.cpp
+        ${IMGUIZMO_DIR}/ImGradient.cpp
+        ${IMGUIZMO_DIR}/ImGuizmo.cpp
+        ${IMGUIZMO_DIR}/ImSequencer.cpp
     PRIVATE
         ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
         ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
@@ -61,6 +67,7 @@ target_sources( imgui
 target_include_directories( imgui
     PUBLIC ${IMGUI_DIR}
     PUBLIC ${IMNODES_DIR}
+    PUBLIC ${IMGUIZMO_DIR}
     PUBLIC ${IMGUI_DIR}/backends
     PUBLIC ${PROJECT_SOURCE_DIR}/external/glfw/include
 )

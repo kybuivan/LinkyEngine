@@ -11,6 +11,7 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "imgui_impl_glfw.h"
+#define IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 #include "imgui_impl_opengl3.h"
 #include <iostream>
 
@@ -22,17 +23,10 @@ static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 Ref<Texture2D> image;
 // build and compile our shader zprogram
 // ------------------------------------
-// camera
-glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 static glm::vec2 prevMousePos(0,0);
 bool firstMouse = true;
-float yaw   = -90.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-float pitch =  0.0f;
-float lastX =  800.0f / 2.0;
-float lastY =  600.0 / 2.0;
-float fov   =  45.0f;
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -127,6 +121,19 @@ static void MouseMoveCallback(float x, float y) {
     camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
+void KeyboarInput(ImGuiIO io)
+{
+    float cameraSpeed = 0.1;
+    if (ImGui::IsKeyPressed(ImGuiKey_A))
+        camera.ProcessKeyboard(Camera3D_Movement::LEFT,cameraSpeed);
+    if (ImGui::IsKeyPressed(ImGuiKey_W))
+        camera.ProcessKeyboard(Camera3D_Movement::FORWARD,cameraSpeed);
+    if (ImGui::IsKeyPressed(ImGuiKey_S)) // r Key
+        camera.ProcessKeyboard(Camera3D_Movement::BACKWARD,cameraSpeed);
+    if (ImGui::IsKeyPressed(ImGuiKey_D)) // r Key
+        camera.ProcessKeyboard(Camera3D_Movement::RIGHT,cameraSpeed);
+}
+
 void ShowMainScene() {
     auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
     auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
@@ -139,7 +146,9 @@ void ShowMainScene() {
             ImGuiIO io = ImGui::GetIO();
             MouseMoveCallback(io.MousePos.x, io.MousePos.y);
             camera.ProcessMouseScroll(static_cast<float>(io.MouseWheel));
+            KeyboarInput(io);
             if (ImGui::GetIO().MouseDown[1]) {
+                
             }
         }
 
@@ -167,6 +176,12 @@ class MyApp : public Application
 public:
     virtual void OnUpdate(float deltatime) override
     {
+        // per-frame time logic
+        // --------------------
+        //float currentFrame = static_cast<float>(glfwGetTime());
+        //deltaTime = currentFrame - lastFrame;
+        //lastFrame = currentFrame;
+
         // ------
         // bind to framebuffer and draw scene as we normally would to color texture 
         glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -218,7 +233,7 @@ public:
         EditorDock::OnBeforeImGuiRender();
         MenuBar::ShowMenu();
         ShowMainScene();
-        EditorNode::ShowEditorNode();
+        EditorNode::NodeEditorShow();
         ImGui::End();
     }
 
@@ -296,10 +311,13 @@ public:
         // if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         //     std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
         // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	    EditorNode::NodeEditorInitialize();
+
     }
 
     void OnEnd() 
     {
+        EditorNode::NodeEditorShutdown();
     }
 private:
     Shader shader;
